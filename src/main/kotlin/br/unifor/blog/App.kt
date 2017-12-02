@@ -1,7 +1,9 @@
 package br.unifor.blog
 
+import br.unifor.blog.controllers.CommentController
 import br.unifor.blog.controllers.PostController
 import br.unifor.blog.database.DaoFactory
+import br.unifor.blog.entity.Comment
 import br.unifor.blog.entity.Post
 import com.j256.ormlite.jdbc.JdbcConnectionSource
 import org.slf4j.LoggerFactory
@@ -13,6 +15,7 @@ fun main(args: Array<String>){
     DaoFactory.connSource = JdbcConnectionSource(DATABASE_URL)
 
     //DaoFactory.createTable<Post>()
+    //DaoFactory.createTable<Comment>()
 
     val logger = LoggerFactory.getLogger("App")
 
@@ -24,6 +27,15 @@ fun main(args: Array<String>){
             put("/:id", PostController.update)
             delete("/:id", PostController.delete)
         })
+
+        path("/comments", {
+            get("", CommentController.index)
+            get("/:id", CommentController.show)
+            post("", CommentController.store)
+            put("/:id", CommentController.update)
+            delete("/:id", CommentController.delete)
+        })
+
     })
 
 }

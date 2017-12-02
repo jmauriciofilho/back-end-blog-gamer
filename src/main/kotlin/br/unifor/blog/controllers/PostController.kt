@@ -94,7 +94,7 @@ class PostController{
 
             val posts = postDAO.queryForAll()
 
-            if(posts != null){
+            if(posts.size > 0){
                 logger.info("Lista de posts foi recuperada.")
                 gson.toJson(posts)
             }else{
