@@ -51,35 +51,41 @@ fun main(args: Array<String>){
 
         path("/auth", {
             path("/posts", {
-                get("", PostController.index)
-                get("/:id", PostController.show)
                 post("", PostController.store)
                 put("/:id", PostController.update)
                 delete("/:id", PostController.delete)
             })
 
             path("/comments", {
-                get("", CommentController.index)
-                get("/:id", CommentController.show)
-                post("", CommentController.store)
                 put("/:id", CommentController.update)
                 delete("/:id", CommentController.delete)
             })
 
             path("/users", {
-                get("", UserController.index)
-                get("/:id", UserController.show)
                 put("/:id", UserController.update)
                 delete("/:id", UserController.delete)
             })
         })
 
         path("/users", {
+            get("", UserController.index)
+            get("/:id", UserController.show)
             post("", UserController.store)
         })
 
         path("/login", {
             post("", AuthController.login)
+        })
+
+        path("/posts", {
+            get("", PostController.index)
+            get("/:id", PostController.show)
+        })
+
+        path("/comments", {
+            get("", CommentController.index)
+            get("/:id", CommentController.show)
+            post("", CommentController.store)
         })
     })
 
