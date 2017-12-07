@@ -22,11 +22,14 @@ fun main(args: Array<String>){
     //DaoFactory.createTable<Comment>()
     //DaoFactory.createTable<Token>()
     //DaoFactory.createTable<User>()
-    Util.Utilities.enableCORS("*","*","*")
+
+
 
     val logger = LoggerFactory.getLogger("App")
 
     path("/api", {
+
+        enableCORS("*", "*", "*")
 
 
 //        before("/auth/*", { req, _ ->
@@ -90,4 +93,30 @@ fun main(args: Array<String>){
         })
     })
 
+}
+
+private fun enableCORS(origin: String, methods: String, headers: String) {
+
+    options("/*") { request, response ->
+
+        val accessControlRequestHeaders = request.headers("Access-Control-Request-Headers")
+        if (accessControlRequestHeaders != null) {
+            response.header("Access-Control-Allow-Headers", accessControlRequestHeaders)
+        }
+
+        val accessControlRequestMethod = request.headers("Access-Control-Request-Method")
+        if (accessControlRequestMethod != null) {
+            response.header("Access-Control-Allow-Methods", accessControlRequestMethod)
+        }
+
+        "OK"
+    }
+
+    before("/*", { req, res ->
+        res.header("Access-Control-Allow-Origin", origin)
+        res.header("Access-Control-Request-Method", methods)
+        res.header("Access-Control-Allow-Headers", headers)
+        // Note: this may or may not be necessary in your particular application
+        res.type("application/json")
+    })
 }
