@@ -22,32 +22,33 @@ fun main(args: Array<String>){
     //DaoFactory.createTable<Comment>()
     //DaoFactory.createTable<Token>()
     //DaoFactory.createTable<User>()
+    Util.Utilities.enableCORS("*","*","*")
 
     val logger = LoggerFactory.getLogger("App")
 
     path("/api", {
 
 
-        before("/auth/*", { req, _ ->
-
-            if(!req.uri().contains("login")){
-
-                val key = req.headers("auth-key") ?: ""
-
-                val tokenDao = DaoFactory.getDaoInstance<Token, Long>()
-                val tokenstatementBuilder = AuthController.tokenDAO.queryBuilder()
-                tokenstatementBuilder.where().eq("key", key)
-                val token = tokenDao.query(tokenstatementBuilder.prepare()).firstOrNull()
-
-                if(token == null){
-                    halt(404, """{"status":"ERROR", "description":"Você não possui permissão para acessar está rota."}""")
-                } else {
-                    logger.info("A requisição ${req.host()} de ${req.uri()} é autenticada.")
-                }
-
-            }
-
-        })
+//        before("/auth/*", { req, _ ->
+//
+//            if(!req.uri().contains("login")){
+//
+//                val key = req.headers("auth-key") ?: ""
+//
+//                val tokenDao = DaoFactory.getDaoInstance<Token, Long>()
+//                val tokenstatementBuilder = AuthController.tokenDAO.queryBuilder()
+//                tokenstatementBuilder.where().eq("key", key)
+//                val token = tokenDao.query(tokenstatementBuilder.prepare()).firstOrNull()
+//
+//                if(token == null){
+//                    halt(404, """{"status":"ERROR", "description":"Você não possui permissão para acessar está rota."}""")
+//                } else {
+//                    logger.info("A requisição ${req.host()} de ${req.uri()} é autenticada.")
+//                }
+//
+//            }
+//
+//        })
 
         path("/auth", {
             path("/posts", {
